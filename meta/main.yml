@@ -20,7 +20,7 @@ galaxy_info:
     - stretch
     #- wheezy
 
-  galaxy_tags: []
+  galaxy_tags:
     - docker
     - compose
     - docker-compose
