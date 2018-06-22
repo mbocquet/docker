@@ -1,0 +1,16 @@
+---
+# defaults file for docker
+docker_dependencies:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+
+# GPG key URL for APT
+docker_gpg_key: 'https://download.docker.com/linux/debian/gpg'
+
+docker_packages:
+  - docker-ce
+
+# This is an example. See README.md for real uses of this variable.
+# docker_compose_version: '1.15.0'
+...

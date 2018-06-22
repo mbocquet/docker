@@ -1,0 +1,29 @@
+galaxy_info:
+  author: Mathias BOCQUET
+  description: Ansible role to install and configure docker.
+  company: Sekoya.org (http://www.sekoya.org)
+
+  license: GPLv3
+
+  min_ansible_version: 1.2
+
+  platforms:
+  - name: Debian
+    versions:
+    #- all
+    - buster
+    #- etch
+    - jessie
+    #- lenny
+    - sid
+    #- squeeze
+    - stretch
+    #- wheezy
+
+  galaxy_tags: []
+    - docker
+    - compose
+    - docker-compose
+    - sysadmin
+
+dependencies: []
