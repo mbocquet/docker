@@ -3,7 +3,6 @@
 docker_dependencies:
   - apt-transport-https
   - ca-certificates
-  - curl
 
 # GPG key URL for APT
 docker_gpg_key: 'https://download.docker.com/linux/debian/gpg'
@@ -12,5 +11,9 @@ docker_packages:
   - docker-ce
 
 # This is an example. See README.md for real uses of this variable.
-# docker_compose_version: '1.15.0'
+# docker_compose_version: '1.21.2'
+
+# docker_compose_get_timeout is the get_url module timeout to fetch
+# docker-compose binary from docker-compose url. Defaults to 10 if undefined.
+# docker_compose_get_timeout: 10
 ...
