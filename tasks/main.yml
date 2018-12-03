@@ -27,8 +27,7 @@
 
 - name: "dependencies"
   apt:
-    name: "{{ item }}"
-  with_items: "{{ docker_dependencies }}"
+    name: "{{ docker_dependencies }}"
   tags:
     - docker
     - dependencies
@@ -53,8 +52,7 @@
 
 - name: "package"
   apt:
-    name: "{{ item }}"
-  with_items: "{{ docker_packages }}"
+    name: "{{ docker_packages }}"
   when:
     - not ansible_check_mode
   tags:
