@@ -7,6 +7,9 @@ docker_dependencies:
 # GPG key URL for APT
 docker_gpg_key: 'https://download.docker.com/linux/debian/gpg'
 
+# docker repository URL
+docker_repository_url: 'https://download.docker.com/linux/debian'
+
 docker_packages:
   - docker-ce
 
