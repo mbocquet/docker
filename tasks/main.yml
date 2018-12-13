@@ -25,13 +25,6 @@
     - systemd
     - proxy
 
-- name: "dependencies"
-  apt:
-    name: "{{ docker_dependencies }}"
-  tags:
-    - docker
-    - dependencies
-
 - name: "APT key"
   apt_key:
     url: "{{ docker_gpg_key }}"
@@ -44,22 +37,65 @@
 - name: "APT repository"
   apt_repository:
     filename: 'docker'
-    repo: "deb https://download.docker.com/linux/debian {{ ansible_lsb.codename }} stable"
+    repo: "deb {{ docker_repository_url }} {{ ansible_lsb.codename }} stable"
   tags:
     - docker
     - apt
     - repository
 
-- name: "package"
+- name: "packages"
   apt:
-    name: "{{ docker_packages }}"
-  when:
-    - not ansible_check_mode
+    name: "{{ docker_dependencies + docker_packages }}"
   tags:
     - docker
     - packages
 
-- name: "docker-compose"
+# - name: "get latest docker-compose version"
+#   shell: wget -O- https://github.com/docker/compose/releases/latest 2>/dev/null|grep -iPo '(?<=<title>Release )[^ ]+'
+#   register: dc_latest
+#   check_mode: no
+#   changed_when: False
+#   when:
+#     - docker_compose_version is not defined
+#   tags:
+#     - docker
+#     - compose
+#     - version
+
+- name: "get latest docker-compose version"
+  uri:
+    url: https://github.com/docker/compose/releases/latest
+    return_content: no
+  register: dc_latest
+  check_mode: no
+  changed_when: False
+  when:
+    - docker_compose_version is not defined
+  tags:
+    - docker
+    - compose
+    - version
+
+- name: "set docker_compose_version with guessed value"
+  set_fact:
+    docker_compose_version: "{{ dc_latest.url | regex_replace('^.*tag/(.*)$', '\\1') }}"
+  when:
+    - docker_compose_version is not defined
+  tags:
+    - docker
+    - compose
+    - version
+
+# - name: "print docker-compose version"
+#   debug:
+#     var: docker_compose_version
+#   tags:
+#     - docker
+#     - compose
+#     - version
+#     - debug
+
+- name: "get docker-compose"
   get_url:
     url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
     dest: '/usr/local/bin/docker-compose'
@@ -68,8 +104,7 @@
     group: root
     mode: 0775
     timeout: "{{ docker_compose_get_timeout | default (10) }}"
-  when:
-    - not ansible_check_mode
+  check_mode: no
   tags:
     - docker
     - compose
