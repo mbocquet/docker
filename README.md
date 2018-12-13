@@ -10,9 +10,14 @@ A host capable to run docker.
 
 ## Role Variables
 
-Finding latest docker_compose version from github releases page is not trivial ! So we use this variable :
-- docker_compose_version.
-  This should be set via parameters to the role or the global scope (ie. hostvars, group vars, etc.).
+* docker_compose_version.
+  Getting latest docker_compose version from github releases page is not
+  trivial but can be found by parsing the following URL's **<title>** HTML tag.
+  https://github.com/docker/compose/releases/latest
+
+The latest version is guessed at runtime unless docker_compose_version is
+defined with a valid version which should be set via parameters to the role or
+the global scope (ie. inline, hostvars, group vars, etc.).
 
 ## Dependencies
 
@@ -24,13 +29,14 @@ None.
 
 ## Example Playbook
 
-    - hosts: servers
+    - hosts: docker
       roles:
          - { role: docker, docker_compose_version: '1.15.0' }
 
-or if docker_compose_version is defined elsewhere :
+If docker_compose_version is defined elsewhere or to let the role guess and
+fetch the latest version at runtime :
 
-    - hosts: servers
+    - hosts: docker
       roles:
          - docker
 
