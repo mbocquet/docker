@@ -19,4 +19,11 @@ docker_packages:
 # docker_compose_get_timeout is the get_url module timeout to fetch
 # docker-compose binary from docker-compose url. Defaults to 10 if undefined.
 # docker_compose_get_timeout: 10
+
+# docker_tmpdir is the tmpdir used by docker-compose. by default, docker uses
+# /tmp and will fail if the noexec mount option is present. This variable can
+# be used in other related playbooks or roles to prepend the docker-compose
+# command with TMP={{ docker_tempdir }}
+#
+# docker_tmpdir: '/var/lib/docker/tmp'
 ...
