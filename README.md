@@ -25,7 +25,7 @@ None.
 
 ## Install this role as submodule in a git repository
 
-`git submodule add https://github.com/mbocquet/docker.git roles/docker`
+`git submodule add https://git.sekoya.org/mb/docker.git roles/docker`
 
 ## Example Playbook
 
