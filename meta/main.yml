@@ -3,6 +3,8 @@ galaxy_info:
   description: Ansible role to install and configure docker.
   company: Sekoya.org (http://www.sekoya.org)
 
+  issue_tracker_url: https://git.sekoya.org/mb/dns/issues
+
   license: GPLv3
 
   min_ansible_version: 1.2
