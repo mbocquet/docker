@@ -37,7 +37,7 @@
 - name: "APT repository"
   apt_repository:
     filename: 'docker'
-    repo: "deb {{ docker_repository_url }} {{ ansible_lsb.codename }} stable"
+    repo: "deb {{ docker_repository_url }} {{ docker_distribution_codename | default ( ansible_lsb.codename ) }} stable"
   tags:
     - docker
     - apt
