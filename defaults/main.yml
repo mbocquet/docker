@@ -26,4 +26,9 @@ docker_packages:
 # command with TMP={{ docker_tempdir }}
 #
 # docker_tmpdir: '/var/lib/docker/tmp'
+
+# docker_distribution_codename is used to force the distribution in case the
+# target systems are testing or unstable. Docker repository only contains
+# codenames !
+# docker_distribution_codename: buster
 ...
