@@ -25,10 +25,13 @@
     - systemd
     - proxy
 
-- name: "APT key"
+- name: APT key
   apt_key:
     url: "{{ docker_gpg_key }}"
     state: present
+  when:
+    - docker_origin is defined
+    - docker_origin == "upstream"
   tags:
     - docker
     - apt
@@ -38,10 +41,32 @@
   apt_repository:
     filename: 'docker'
     repo: "deb {{ docker_repository_url }} {{ docker_distribution_codename | default ( ansible_lsb.codename ) }} stable"
+  when:
+    - docker_origin is defined
+    - docker_origin == "upstream"
   tags:
     - docker
     - apt
     - repository
+
+- name: package
+  set_fact:
+    docker_packages:
+      - docker.io
+      - docker-compose
+  when:
+    - docker_origin is not defined or docker_origin != 'upstream'
+  tags:
+    - docker
+
+- name: package
+  set_fact:
+    docker_packages: docker-ce
+  when:
+    - docker_origin is defined
+    - docker_origin == 'upstream'
+  tags:
+    - docker
 
 - name: package
   apt:
@@ -71,16 +96,20 @@
   check_mode: no
   changed_when: False
   when:
+    - docker_origin is defined
+    - docker_origin == 'upstream'
     - docker_compose_version is not defined
   tags:
     - docker
     - compose
     - version
 
-- name: "set docker_compose_version with guessed value"
+- name: set docker_compose_version with guessed value
   set_fact:
     docker_compose_version: "{{ dc_latest.url | regex_replace('^.*tag/(.*)$', '\\1') }}"
   when:
+    - docker_origin is defined
+    - docker_origin == 'upstream'
     - docker_compose_version is not defined
   tags:
     - docker
@@ -105,6 +134,9 @@
     group: root
     mode: 0775
     timeout: "{{ docker_compose_get_timeout | default (10) }}"
+  when:
+    - docker_origin is defined
+    - docker_origin == 'upstream'
   check_mode: no
   tags:
     - docker

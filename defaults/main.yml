@@ -1,5 +1,10 @@
 ---
 # defaults file for docker
+
+# origin of packages ; upstream (docker.com), undefined or 'default' to use
+# system packages
+# docker_origin: 'upstream'
+
 docker_dependencies:
   - apt-transport-https
   - ca-certificates
@@ -9,9 +14,6 @@ docker_gpg_key: 'https://download.docker.com/linux/debian/gpg'
 
 # docker repository URL
 docker_repository_url: 'https://download.docker.com/linux/debian'
-
-docker_packages:
-  - docker-ce
 
 # This is an example. See README.md for real uses of this variable.
 # docker_compose_version: '1.21.2'
