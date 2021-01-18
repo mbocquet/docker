@@ -2,7 +2,7 @@
 # handlers file for docker
 - name: "systemd reload"
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: "docker restart"
   systemd:
