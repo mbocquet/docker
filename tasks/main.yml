@@ -71,8 +71,7 @@
 
 - name: package
   apt:
-    name: "{{ docker_dependencies + docker_packages }}"
-    force_apt_get: yes
+    name: "{{ docker_packages }}"
   tags:
     - docker
     - package

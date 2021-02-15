@@ -5,10 +5,6 @@
 # system packages
 # docker_origin: 'upstream'
 
-docker_dependencies:
-  - apt-transport-https
-  - ca-certificates
-
 # GPG key URL for APT
 docker_gpg_key: 'https://download.docker.com/linux/debian/gpg'
 
