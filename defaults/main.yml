@@ -2,13 +2,14 @@
 # defaults file for docker
 
 # origin of packages ; upstream (docker.com), undefined or 'default' to use
-# system packages
+# system packages. Defaults to system packages (Debian's docker.io).
+#
 # docker_origin: 'upstream'
 
-# GPG key URL for APT
+# GPG key URL for upstream APT repository
 docker_gpg_key: 'https://download.docker.com/linux/debian/gpg'
 
-# docker repository URL
+# Upstream APT repository URL
 docker_repository_url: 'https://download.docker.com/linux/debian'
 
 # This is an example. See README.md for real uses of this variable.
@@ -18,10 +19,10 @@ docker_repository_url: 'https://download.docker.com/linux/debian'
 # docker-compose binary from docker-compose url. Defaults to 10 if undefined.
 # docker_compose_get_timeout: 10
 
-# docker_tmpdir is the tmpdir used by docker-compose. by default, docker uses
-# /tmp and will fail if the noexec mount option is present. This variable can
-# be used in other related playbooks or roles to prepend the docker-compose
-# command with TMP={{ docker_tempdir }}
+# docker_tmpdir is the tmpdir used by upstream docker-compose (not Debian's
+# one). This docker-compose version uses /tmp and will fail if the noexec mount
+# option is present. This variable can be used in other related playbooks or
+# roles to prepend the docker-compose command with TMP={{ docker_tmpdir }}
 #
 # docker_tmpdir: '/var/lib/docker/tmp'
 
