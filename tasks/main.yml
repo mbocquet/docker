@@ -1,8 +1,8 @@
 ---
 # tasks file for docker
-- name: "systemd proxy environment (folder)"
+- name: systemd proxy environment folder
   file:
-    path: "/etc/systemd/system/docker.service.d"
+    path: /etc/systemd/system/docker.service.d
     state: directory
   when:
     - proxy_env is defined
@@ -11,10 +11,10 @@
     - systemd
     - proxy
 
-- name: "systemd proxy environment (file)"
+- name: systemd proxy environment file
   template:
-    src: "http-proxy.conf.j2"
-    dest: "/etc/systemd/system/docker.service.d/http-proxy.conf"
+    src: http-proxy.conf.j2
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
   notify:
     - systemd reload
     - docker restart
@@ -31,16 +31,18 @@
     state: present
   when:
     - docker_origin is defined
-    - docker_origin == "upstream"
+    - docker_origin | lower == "upstream"
   tags:
     - docker
     - apt
     - key
 
-- name: "APT repository"
+- name: APT repository
   apt_repository:
-    filename: 'docker'
-    repo: "deb {{ docker_repository_url }} {{ docker_distribution_codename | default ( ansible_lsb.codename ) }} stable"
+    filename: docker
+    repo:
+      "deb {{ docker_repository_url }} {{ docker_distribution_codename |
+      default ( ansible_lsb.codename ) }} stable"
   when:
     - docker_origin is defined
     - docker_origin == "upstream"
@@ -55,7 +57,8 @@
       - docker.io
       - docker-compose
   when:
-    - docker_origin is not defined or docker_origin != 'upstream'
+    docker_origin is not defined or
+    docker_origin | lower != 'upstream'
   tags:
     - docker
 
@@ -65,7 +68,7 @@
       - docker-ce
   when:
     - docker_origin is defined
-    - docker_origin == 'upstream'
+    - docker_origin | lower == 'upstream'
   tags:
     - docker
 
@@ -76,19 +79,7 @@
     - docker
     - package
 
-# - name: "get latest docker-compose version"
-#   shell: wget -O- https://github.com/docker/compose/releases/latest 2>/dev/null|grep -iPo '(?<=<title>Release )[^ ]+'
-#   register: dc_latest
-#   check_mode: no
-#   changed_when: False
-#   when:
-#     - docker_compose_version is not defined
-#   tags:
-#     - docker
-#     - compose
-#     - version
-
-- name: "get latest docker-compose version"
+- name: get latest docker-compose version
   uri:
     url: https://github.com/docker/compose/releases/latest
     return_content: false
@@ -97,7 +88,7 @@
   changed_when: false
   when:
     - docker_origin is defined
-    - docker_origin == 'upstream'
+    - docker_origin | lower == 'upstream'
     - docker_compose_version is not defined
   tags:
     - docker
@@ -106,10 +97,11 @@
 
 - name: set docker_compose_version with guessed value
   set_fact:
-    docker_compose_version: "{{ dc_latest.url | regex_replace('^.*tag/(.*)$', '\\1') }}"
+    docker_compose_version:
+      "{{ dc_latest.url | regex_replace('^.*tag/(.*)$', '\\1') }}"
   when:
     - docker_origin is defined
-    - docker_origin == 'upstream'
+    - docker_origin | lower == 'upstream'
     - docker_compose_version is not defined
   tags:
     - docker
@@ -125,10 +117,13 @@
 #     - version
 #     - debug
 
-- name: "get docker-compose"
+- name: get docker-compose
   get_url:
-    url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
-    dest: '/usr/local/bin/docker-compose'
+    url:
+      "https://github.com/docker/compose/releases/download/
+      {{ docker_compose_version }}/docker-compose-{{ ansible_system }}-
+      {{ ansible_architecture }}"
+    dest: /usr/local/bin/docker-compose
     force: true
     owner: root
     group: root
@@ -136,7 +131,7 @@
     timeout: "{{ docker_compose_get_timeout | default (10) }}"
   when:
     - docker_origin is defined
-    - docker_origin == 'upstream'
+    - docker_origin | lower == 'upstream'
   check_mode: false
   tags:
     - docker
