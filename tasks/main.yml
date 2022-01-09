@@ -150,6 +150,7 @@
     append: true
   loop: "{{ docker_users }}"
   when:
+    - docker_users is defined
     - "'docker.service' in services"
   tags:
     - docker
