@@ -4,6 +4,7 @@
   file:
     path: /etc/systemd/system/docker.service.d
     state: directory
+    mode: 0755
   when:
     - proxy_env is defined
   tags:
@@ -15,6 +16,7 @@
   template:
     src: http-proxy.conf.j2
     dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+    mode: 0644
   notify:
     - systemd reload
     - docker restart
