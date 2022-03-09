@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: docker
   author: Mathias BOCQUET
   description: Ansible role to install and configure docker.
   company: Sekoya.org (http://www.sekoya.org)
@@ -10,14 +11,14 @@ galaxy_info:
   min_ansible_version: 1.2
 
   platforms:
-  - name: Debian
-    versions:
-    - bookworm
-    - bullseye
-    - buster
-    - jessie
-    - sid
-    - stretch
+    - name: Debian
+      versions:
+        - bookworm
+        - bullseye
+        - buster
+        - jessie
+        - sid
+        - stretch
 
   galaxy_tags:
     - docker
