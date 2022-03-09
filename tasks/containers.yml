@@ -1,0 +1,77 @@
+---
+- name: basedir
+  file:
+    path: "{{ item.basedir }}"
+    state: directory
+    owner: "{{ item.folderowner | default ( omit ) }}"
+    group: "{{ item.foldergroup | default ( omit ) }}"
+    mode: "{{ item.foldermode | default ( omit ) }}"
+  loop: "{{ docker_containers }}"
+  tags:
+    - docker
+    - container
+    - folder
+    - basedir
+
+- name: htmldir
+  file:
+    path: "{{ item.htmldir }}"
+    state: directory
+    owner: "{{ item.folderowner | default ( omit ) }}"
+    group: "{{ item.foldergroup | default ( omit ) }}"
+    mode: "{{ item.foldermode | default ( omit ) }}"
+  loop: "{{ docker_containers }}"
+  when: item.htmldir is defined
+  tags:
+    - docker
+    - container
+    - folder
+    - htmldir
+
+- name: check index.html
+  stat:
+    path: "{{ item.htmldir }}/index.html"
+  loop: "{{ docker_containers }}"
+  register: index
+  when:
+    - item.sample is defined
+    - item.sample | lower() in [ "true", "yes" ]
+  tags:
+    - docker
+    - container
+    - index
+
+- name: sample index.html
+  template:
+    src: index.j2
+    dest: "{{ item.htmldir }}/index.html"
+    owner: "{{ item.fileowner | default ( omit ) }}"
+    group: "{{ item.filegroup | default ( omit ) }}"
+    mode: "{{ item.filemode | default ( omit ) }}"
+  loop: "{{ docker_containers }}"
+  when:
+    - item.sample is defined
+    - item.sample | lower() in [ "true", "yes" ]
+    - not index.stat.exists
+  tags:
+    - docker
+    - container
+    - index
+
+- name: docker-compose.yml
+  template:
+    src:
+      "{{ item.compose_template | default ('default') }}-docker-compose.yml.j2"
+    dest: "{{ item.basedir }}/docker-compose.yml"
+    owner: "{{ item.fileowner | default ( omit ) }}"
+    group: "{{ item.filegroup | default ( omit ) }}"
+    mode: "{{ item.filemode | default ( omit ) }}"
+  register: compose
+  notify:
+    - docker-compose down
+    - docker-compose up
+  loop: "{{ docker_containers }}"
+  tags:
+    - docker
+    - container
+    - docker-compose

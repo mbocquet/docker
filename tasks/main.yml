@@ -53,7 +53,7 @@
     - apt
     - repository
 
-- name: package
+- name: set facts for distrib version
   set_fact:
     docker_packages:
       - docker.io
@@ -64,7 +64,7 @@
   tags:
     - docker
 
-- name: package
+- name: set facts for upstream version
   set_fact:
     docker_packages:
       - docker-ce
@@ -156,3 +156,7 @@
     - "'docker.service' in services"
   tags:
     - docker
+
+- import_tasks: containers.yml
+  when:
+    - docker_containers is defined

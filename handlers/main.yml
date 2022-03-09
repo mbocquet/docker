@@ -1,11 +1,30 @@
 ---
 # handlers file for docker
-- name: "systemd reload"
+- name: systemd reload
   systemd:
     daemon_reload: true
 
-- name: "docker restart"
+- name: docker restart
   systemd:
     name: docker
     state: restarted
-...
+
+- name: docker-compose down
+  community.general.docker_compose:
+    project_src: "{{ item }}"
+    state: absent
+  loop: "{{ compose.results |
+  selectattr('changed', 'equalto', true) |
+  map(attribute='item') |
+  map(attribute='basedir') |
+  list }}"
+
+- name: docker-compose up
+  community.general.docker_compose:
+    project_src: "{{ item }}"
+    state: present
+  loop: "{{ compose.results |
+  selectattr('changed', 'equalto', true) |
+  map(attribute='item') |
+  map(attribute='basedir') |
+  list }}"
