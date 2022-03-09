@@ -7,13 +7,13 @@
 # docker_origin: 'upstream'
 
 # GPG key URL for upstream APT repository
-docker_gpg_key: 'https://download.docker.com/linux/debian/gpg'
+docker_gpg_key: https://download.docker.com/linux/debian/gpg
 
 # Upstream APT repository URL
-docker_repository_url: 'https://download.docker.com/linux/debian'
+docker_repository_url: https://download.docker.com/linux/debian
 
 # This is an example. See README.md for real uses of this variable.
-# docker_compose_version: '1.21.2'
+# docker_compose_version: 1.21.2
 
 # docker_compose_get_timeout is the get_url module timeout to fetch
 # docker-compose binary from docker-compose url. Defaults to 10 if undefined.
@@ -24,10 +24,9 @@ docker_repository_url: 'https://download.docker.com/linux/debian'
 # option is present. This variable can be used in other related playbooks or
 # roles to prepend the docker-compose command with TMP={{ docker_tmpdir }}
 #
-# docker_tmpdir: '/var/lib/docker/tmp'
+# docker_tmpdir: /var/lib/docker/tmp
 
 # docker_distribution_codename is used to force the distribution in case the
 # target systems are testing or unstable. Docker repository only contains
 # codenames !
-# docker_distribution_codename: buster
-...
+# docker_distribution_codename: bullseye
