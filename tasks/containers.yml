@@ -30,3 +30,9 @@
     - docker
     - container
     - docker-compose
+
+- name: docker-compose state
+  community.general.docker_compose:
+    project_src: "{{ item.basedir }}"
+    state: "{{ item.state | default ('present') }}"
+  loop: "{{ docker_containers }}"

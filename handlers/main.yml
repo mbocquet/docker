@@ -22,7 +22,7 @@
 - name: docker-compose up
   community.general.docker_compose:
     project_src: "{{ item }}"
-    state: present
+    state: "{{ item.state | default ('present') }}"
   loop: "{{ compose.results |
   selectattr('changed', 'equalto', true) |
   map(attribute='item') |
