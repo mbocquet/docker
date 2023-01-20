@@ -30,3 +30,14 @@ docker_repository_url: https://download.docker.com/linux/debian
 # target systems are testing or unstable. Docker repository only contains
 # codenames !
 # docker_distribution_codename: bullseye
+
+# docker_containers : handle containers
+# See example below and related file in templates/myapp-docker-compose.yml.j2.
+#
+# docker_containers:
+#   - name: myapp
+#     basedir: /srv/myapp
+#     compose_template: myapp-docker-compose.yml.j2
+#     image: provider/image-name:1.1.5
+#     port: 127.0.0.1:3000:3000
+#     volume_name: myapp
