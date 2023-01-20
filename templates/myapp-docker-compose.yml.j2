@@ -1,0 +1,15 @@
+# {{ ansible_managed }}. role: {{ role_name }}. template: myapp-docker-compose.yml.j2
+---
+version: '3.3'
+services:
+  {{ item.name }}:
+    image: {{ item.image }}
+    container_name: {{ item.name }}
+    volumes:
+      - {{ item.volume_name }}:/app/data
+    ports:
+      - {{ item.port }}
+    restart: unless-stopped
+volumes:
+  {{ item.volume_name }}:
+    driver: local
