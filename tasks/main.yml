@@ -44,7 +44,7 @@
     filename: docker
     repo:
       "deb {{ docker_repository_url }} {{ docker_distribution_codename |
-      default ( ansible_lsb.codename ) }} stable"
+      default(ansible_lsb.codename) }} stable"
   when:
     - docker_origin is defined
     - docker_origin == "upstream"
@@ -130,7 +130,7 @@
     owner: root
     group: root
     mode: 0775
-    timeout: "{{ docker_compose_get_timeout | default (10) }}"
+    timeout: "{{ docker_compose_get_timeout | default(10) }}"
   when:
     - docker_origin is defined
     - docker_origin | lower == 'upstream'
@@ -157,6 +157,7 @@
   tags:
     - docker
 
-- import_tasks: containers.yml
+- name: containers
+  import_tasks: containers.yml
   when:
     - docker_containers is defined

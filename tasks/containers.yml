@@ -3,9 +3,9 @@
   file:
     path: "{{ item.basedir }}"
     state: directory
-    owner: "{{ item.folderowner | default ( omit ) }}"
-    group: "{{ item.foldergroup | default ( omit ) }}"
-    mode: "{{ item.foldermode | default ( omit ) }}"
+    owner: "{{ item.folderowner | default(omit) }}"
+    group: "{{ item.foldergroup | default(omit) }}"
+    mode: "{{ item.foldermode | default(omit) }}"
   loop: "{{ docker_containers }}"
   tags:
     - docker
@@ -16,11 +16,11 @@
 - name: docker-compose.yml
   template:
     src:
-      "{{ item.compose_template | default ('default-docker-compose.yml.j2') }}"
+      "{{ item.compose_template | default('default-docker-compose.yml.j2') }}"
     dest: "{{ item.basedir }}/docker-compose.yml"
-    owner: "{{ item.fileowner | default ( omit ) }}"
-    group: "{{ item.filegroup | default ( omit ) }}"
-    mode: "{{ item.filemode | default ( omit ) }}"
+    owner: "{{ item.fileowner | default(omit) }}"
+    group: "{{ item.filegroup | default(omit) }}"
+    mode: "{{ item.filemode | default(omit) }}"
   register: compose
   notify:
     - docker-compose down
@@ -34,5 +34,5 @@
 - name: docker-compose state
   community.general.docker_compose:
     project_src: "{{ item.basedir }}"
-    state: "{{ item.state | default ('present') }}"
+    state: "{{ item.state | default('present') }}"
   loop: "{{ docker_containers }}"
