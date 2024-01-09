@@ -39,5 +39,9 @@ docker_repository_url: https://download.docker.com/linux/debian
 #     basedir: /srv/myapp
 #     compose_template: myapp-docker-compose.yml.j2
 #     image: provider/image-name:1.1.5
+#     environment:
+#       - VAR1=value1
+#       - VAR2=value2
 #     port: 127.0.0.1:3000:3000
+#     state: present
 #     volume_name: myapp
