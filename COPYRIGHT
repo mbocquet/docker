@@ -1,6 +1,6 @@
 'docker'. Ansible role to install and configure docker.
 
-Copyright © 2018-2023 Mathias Bocquet (mbocquet@sekoya.org)
+Copyright © 2018-2024 Mathias Bocquet (mbocquet@sekoya.org)
 
 This file is part of 'docker' Ansible role.
 
