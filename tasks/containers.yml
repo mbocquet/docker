@@ -1,5 +1,5 @@
 ---
-- name: basedir
+- name: Basedir
   file:
     path: "{{ item.basedir }}"
     state: directory
@@ -13,11 +13,11 @@
     - folder
     - basedir
 
-- name: docker-compose.yml
+- name: Compose file
   template:
     src:
       "{{ item.compose_template | default('default-docker-compose.yml.j2') }}"
-    dest: "{{ item.basedir }}/docker-compose.yml"
+    dest: "{{ item.basedir }}/{{ item.compose_filename | default('docker-compose.yml }}"
     owner: "{{ item.fileowner | default(omit) }}"
     group: "{{ item.filegroup | default(omit) }}"
     mode: "{{ item.filemode | default(omit) }}"
@@ -31,8 +31,12 @@
     - container
     - docker-compose
 
-- name: docker-compose state
+- name: Compose state
   community.general.docker_compose:
     project_src: "{{ item.basedir }}"
     state: "{{ item.state | default('present') }}"
   loop: "{{ docker_containers }}"
+  tags:
+    - docker
+    - container
+    - docker-compose
