@@ -1,7 +1,7 @@
 ---
 # tasks file for docker
 - name: Systemd proxy environment folder
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system/docker.service.d
     state: directory
     mode: 0755
@@ -13,7 +13,7 @@
     - proxy
 
 - name: Systemd proxy environment file
-  template:
+  ansible.builtin.template:
     src: http-proxy.conf.j2
     dest: /etc/systemd/system/docker.service.d/http-proxy.conf
     mode: 0644
@@ -28,7 +28,7 @@
     - proxy
 
 - name: APT key
-  apt_key:
+  ansible.builtin.apt_key:
     url: "{{ docker_gpg_key }}"
     state: present
   when:
@@ -40,7 +40,7 @@
     - key
 
 - name: APT repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     filename: docker
     repo:
       "deb {{ docker_repository_url }} {{ docker_distribution_codename |
@@ -54,7 +54,7 @@
     - repository
 
 - name: Set facts for distrib version
-  set_fact:
+  ansible.builtin.set_fact:
     docker_packages:
       - docker.io
       - docker-compose
@@ -65,7 +65,7 @@
     - docker
 
 - name: Set facts for upstream version
-  set_fact:
+  ansible.builtin.set_fact:
     docker_packages:
       - docker-ce
   when:
@@ -75,14 +75,14 @@
     - docker
 
 - name: Package
-  apt:
+  ansible.builtin.apt:
     name: "{{ docker_packages }}"
   tags:
     - docker
     - package
 
 - name: Get latest docker-compose version
-  uri:
+  ansible.builtin.uri:
     url: https://github.com/docker/compose/releases/latest
     return_content: false
   register: dc_latest
@@ -98,7 +98,7 @@
     - version
 
 - name: Set docker_compose_version with guessed value
-  set_fact:
+  ansible.builtin.set_fact:
     docker_compose_version:
       "{{ dc_latest.url | regex_replace('^.*tag/(.*)$', '\\1') }}"
   when:
@@ -120,7 +120,7 @@
 #     - debug
 
 - name: Get docker-compose
-  get_url:
+  ansible.builtin.get_url:
     url:
       "https://github.com/docker/compose/releases/download/
       {{ docker_compose_version }}/docker-compose-{{ ansible_system }}-
@@ -145,7 +145,7 @@
     - docker
 
 - name: Docker group members
-  user:
+  ansible.builtin.user:
     name: "{{ item }}"
     groups:
       - docker
@@ -158,6 +158,6 @@
     - docker
 
 - name: Containers
-  import_tasks: containers.yml
+  ansible.builtin.import_tasks: containers.yml
   when:
     - docker_containers is defined

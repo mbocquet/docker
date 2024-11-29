@@ -1,6 +1,6 @@
 ---
 - name: Basedir
-  file:
+  ansible.builtin.file:
     path: "{{ item.basedir }}"
     state: directory
     owner: "{{ item.folderowner | default(omit) }}"
@@ -14,7 +14,7 @@
     - basedir
 
 - name: Compose file
-  template:
+  ansible.builtin.template:
     src:
       "{{ item.compose_template | default('default-docker-compose.yml.j2') }}"
     dest: "{{ item.basedir }}/{{ item.compose_filename |
