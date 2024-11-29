@@ -17,7 +17,8 @@
   template:
     src:
       "{{ item.compose_template | default('default-docker-compose.yml.j2') }}"
-    dest: "{{ item.basedir }}/{{ item.compose_filename | default('docker-compose.yml }}"
+    dest: "{{ item.basedir }}/{{ item.compose_filename |
+      default('docker-compose.yml') }}"
     owner: "{{ item.fileowner | default(omit) }}"
     group: "{{ item.filegroup | default(omit) }}"
     mode: "{{ item.filemode | default(omit) }}"
