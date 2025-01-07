@@ -9,8 +9,8 @@
     name: docker
     state: restarted
 
-- name: docker-compose down
-  community.general.docker_compose:
+- name: compose down
+  community.docker.docker_compose_v2:
     project_src: "{{ item }}"
     state: absent
   loop: "{{ compose.results |
@@ -19,11 +19,31 @@
   map(attribute='basedir') |
   list }}"
 
-- name: docker-compose up
-  community.general.docker_compose:
+- name: compose up
+  community.docker.docker_compose_v2:
     project_src: "{{ item }}"
     state: "{{ item.state | default('present') }}"
   loop: "{{ compose.results |
+  selectattr('changed', 'equalto', true) |
+  map(attribute='item') |
+  map(attribute='basedir') |
+  list }}"
+
+- name: env compose down
+  community.docker.docker_compose_v2:
+    project_src: "{{ item }}"
+    state: absent
+  loop: "{{ env.results |
+  selectattr('changed', 'equalto', true) |
+  map(attribute='item') |
+  map(attribute='basedir') |
+  list }}"
+
+- name: env compose up
+  community.docker.docker_compose_v2:
+    project_src: "{{ item }}"
+    state: "{{ item.state | default('present') }}"
+  loop: "{{ env.results |
   selectattr('changed', 'equalto', true) |
   map(attribute='item') |
   map(attribute='basedir') |

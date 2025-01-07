@@ -13,7 +13,7 @@
     - folder
     - basedir
 
-- name: Compose file
+- name: Compose
   ansible.builtin.template:
     src:
       "{{ item.compose_template | default('default-docker-compose.yml.j2') }}"
@@ -24,16 +24,35 @@
     mode: "{{ item.filemode | default(omit) }}"
   register: compose
   notify:
-    - docker-compose down
-    - docker-compose up
+    - compose down
+    - compose up
   loop: "{{ docker_containers }}"
   tags:
     - docker
     - container
     - docker-compose
 
+- name: Env
+  ansible.builtin.template:
+    src:
+      "{{ item.env_template | default('default-docker-compose.yml.j2') }}"
+    dest: "{{ item.basedir }}/.env"
+    owner: "{{ item.fileowner | default(omit) }}"
+    group: "{{ item.filegroup | default(omit) }}"
+    mode: "{{ item.filemode | default(omit) }}"
+  when: item.env_template is defined
+  register: env
+  notify:
+    - env compose down
+    - env compose up
+  loop: "{{ docker_containers }}"
+  tags:
+    - docker
+    - container
+    - env
+
 - name: Compose state
-  community.general.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ item.basedir }}"
     state: "{{ item.state | default('present') }}"
   loop: "{{ docker_containers }}"
