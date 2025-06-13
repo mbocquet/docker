@@ -30,7 +30,8 @@
   tags:
     - docker
     - container
-    - docker-compose
+    - template
+    - compose
 
 - name: Env
   ansible.builtin.template:
@@ -49,6 +50,7 @@
   tags:
     - docker
     - container
+    - template
     - env
 
 - name: Compose state
@@ -59,4 +61,5 @@
   tags:
     - docker
     - container
-    - docker-compose
+    - compose
+    - state
