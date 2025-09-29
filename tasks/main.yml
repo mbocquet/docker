@@ -18,8 +18,8 @@
     dest: /etc/systemd/system/docker.service.d/http-proxy.conf
     mode: 0644
   notify:
-    - systemd reload
-    - docker restart
+    - Reload systemd
+    - Restart docker
   when:
     - proxy_env is defined
   tags:

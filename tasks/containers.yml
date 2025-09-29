@@ -24,8 +24,8 @@
     mode: "{{ item.filemode | default(omit) }}"
   register: compose
   notify:
-    - compose down
-    - compose up
+    - Compose down
+    - Compose up
   loop: "{{ docker_containers }}"
   tags:
     - docker
@@ -43,8 +43,8 @@
   when: item.env_template is defined
   register: env
   notify:
-    - env compose down
-    - env compose up
+    - Env compose down
+    - Env compose up
   loop: "{{ docker_containers }}"
   tags:
     - docker

@@ -1,15 +1,15 @@
 ---
 # handlers file for docker
-- name: systemd reload
+- name: Reload systemd
   ansible.builtin.systemd:
     daemon_reload: true
 
-- name: docker restart
+- name: Restart docker
   ansible.builtin.systemd:
     name: docker
     state: restarted
 
-- name: compose down
+- name: Compose down
   community.docker.docker_compose_v2:
     project_src: "{{ item }}"
     state: absent
@@ -19,7 +19,7 @@
   map(attribute='basedir') |
   list }}"
 
-- name: compose up
+- name: Compose up
   community.docker.docker_compose_v2:
     project_src: "{{ item }}"
     state: "{{ item.state | default('present') }}"
@@ -29,7 +29,7 @@
   map(attribute='basedir') |
   list }}"
 
-- name: env compose down
+- name: Env compose down
   community.docker.docker_compose_v2:
     project_src: "{{ item }}"
     state: absent
@@ -39,7 +39,7 @@
   map(attribute='basedir') |
   list }}"
 
-- name: env compose up
+- name: Env compose up
   community.docker.docker_compose_v2:
     project_src: "{{ item }}"
     state: "{{ item.state | default('present') }}"
