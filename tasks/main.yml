@@ -43,8 +43,8 @@
   ansible.builtin.apt_repository:
     filename: docker
     repo:
-      "deb {{ docker_repository_url }} {{ docker_distribution_codename |
-      default(ansible_lsb.codename) }} stable"
+      deb {{ docker_repository_url }} {{ docker_distribution_codename |
+      default(ansible_lsb.codename) }} stable
   when:
     - docker_origin is defined
     - docker_origin == "upstream"
