@@ -7,6 +7,7 @@
     mode: "0755"
   when:
     - proxy_env is defined
+    - proxy_env | length > 0
   tags:
     - docker
     - systemd
@@ -22,6 +23,7 @@
     - Restart docker
   when:
     - proxy_env is defined
+    - proxy_env | length > 0
   tags:
     - docker
     - systemd
