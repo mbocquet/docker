@@ -10,7 +10,7 @@
 docker_gpg_key: https://download.docker.com/linux/debian/gpg
 
 # Upstream APT repository URL
-docker_repository_url: https://download.docker.com/linux/debian
+docker_repository_url: https://download.docker.com/linux
 
 # This is an example. See README.md for real uses of this variable.
 # docker_compose_version: 1.21.2
