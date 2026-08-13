@@ -22,7 +22,7 @@
     owner: "{{ item.fileowner | default(omit) }}"
     group: "{{ item.filegroup | default(omit) }}"
     mode: "{{ item.filemode | default(omit) }}"
-  register: compose
+  register: docker_compose
   notify:
     - Compose down
     - Compose up
@@ -42,7 +42,7 @@
     group: "{{ item.filegroup | default(omit) }}"
     mode: "{{ item.filemode | default(omit) }}"
   when: item.env_template is defined
-  register: env
+  register: docker_env
   notify:
     - Env compose down
     - Env compose up
