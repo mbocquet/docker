@@ -118,7 +118,7 @@
   loop: "{{ docker_users }}"
   when:
     - docker_users is defined
-    - "'docker.service' in services"
+    - "'docker.service' in ansible_facts.services"
   tags:
     - docker
 
